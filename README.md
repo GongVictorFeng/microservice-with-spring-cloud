@@ -47,31 +47,43 @@
   - Docker: Consistent deployment approach for microservices, programming language and environment independent
   - Kubernetes: Orchestrate thousands of microservices with advanced features (Service Discovery, Load Balancing, Release Mgmt,...)
 
-  ## Centralized Configuration
+## Centralized Configuration
 
-  - Need for Centralized Configuration
-    - Lot of configuration:
-      - External Service
-      - Database
-      - Queue
-      - Typical Application Configuration
-    - Configuration variations:
-      - 1000s of Microservices
-      - Multiple Environments
-      - Multiple instances in each Environment
-    - How to manage all this configuration (Spring Cloud Config Server)
-      - Store configuration related multiple microservices, all the different environment in just one git repo.
-      - Create a microservice limits-service - Config Client and import config server
-        - spring.config.import=optional:configserver:http://localhost:8888
-      - Create another microservice spring-cloud-config-server - Config Server
-      - Initialize a git repo, and create a configuration file - limits-service.properties
-      - Set the uri of config server in spring-cloud-config-server
-        - spring.cloud.config.server.git.uri=file:///C:/Users/**\***/Desktop/GitFolder/microservice-with-spring-cloud
-      - Enable config server - @EnableConfigServer
-      - Ensure the microservice name should be the same as the name of properties files in git repo
-        - spring.application.name=limits-service
-      - Set configuration for different environments
-        - spring.profiles.active=dev
-        - spring.cloud.config.profile=dev
-        - create corresponding file in git repo - limits-service-dev.properties
-          ![centralized configuration](assets/centralized-configuration.png)
+- Need for Centralized Configuration
+  - Lot of configuration:
+    - External Service
+    - Database
+    - Queue
+    - Typical Application Configuration
+  - Configuration variations:
+    - 1000s of Microservices
+    - Multiple Environments
+    - Multiple instances in each Environment
+- How to manage all this configuration (Spring Cloud Config Server)
+  - Store configuration related multiple microservices, all the different environment in just one git repo.
+  - Create a microservice limits-service - Config Client and import config server
+    - spring.config.import=optional:configserver:http://localhost:8888
+  - Create another microservice spring-cloud-config-server - Config Server
+  - Initialize a git repo, and create a configuration file - limits-service.properties
+  - Set the uri of config server in spring-cloud-config-server
+    - spring.cloud.config.server.git.uri=file:///C:/Users/**\***/Desktop/GitFolder/microservice-with-spring-cloud
+  - Enable config server - @EnableConfigServer
+  - Ensure the microservice name should be the same as the name of properties files in git repo
+    - spring.application.name=limits-service
+  - Set configuration for different environments
+    - spring.profiles.active=dev
+    - spring.cloud.config.profile=dev
+    - create corresponding file in git repo - limits-service-dev.properties
+      ![centralized configuration](assets/centralized-configuration.png)
+
+## Example of Microservice Architecture
+
+- Microservice Overview: ![microservice overview](assets/microservice-overview.png)
+- Currency Exchange Microservice - the exchange rate of one currency in another
+  * http://localhost:8000/currency-exchange/from/USD/to/CNY
+  *  {"id":10001, "from":"USD", "to":"INR", "conversionMultiple":7.19, "environment":"8000 instance-id"}
+* Currency Conversion Microservice - convert the USD into CNY
+  * http://localhost:8100/currency-conversion/from/USD/to/CNY/quantity/10
+  * {"id": 10001, "from": "USD", "to": "INR", "conversionMultiple": 7.19, "quantity": 10, "totalCalculatedAmount": 71.9, "environment": "8000 instance-id"}
+  * Invoke currency exchange service from currency conversion service using RestTemplate: https://github.com/GongVictorFeng/microservice-with-spring-cloud/commit/9a30bc56109b118ad4b0ba547e13f970d1bf890f
+  * Use Feign Rest client for service invocation: https://github.com/GongVictorFeng/microservice-with-spring-cloud/commit/f0b713a76a778affcfa376e063b3380a34149edc

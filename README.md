@@ -1,4 +1,10 @@
 # Microservice-With-Spring-Cloud
+This project is to explore the basic of Microservice and learn how to implement microservice using Spring Cloud, including:
+* Establish communication between microservices
+* Enable load balancing
+* Centralize the configuration of microservices with Spring Cloud Config Server
+* Implement Eureka Naming Server
+* Create fault tolerance microservices with Resilience4j
 
 ## Monolith Application
 

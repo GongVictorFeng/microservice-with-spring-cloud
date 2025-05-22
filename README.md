@@ -80,10 +80,41 @@
 
 - Microservice Overview: ![microservice overview](assets/microservice-overview.png)
 - Currency Exchange Microservice - the exchange rate of one currency in another
-  * http://localhost:8000/currency-exchange/from/USD/to/CNY
-  *  {"id":10001, "from":"USD", "to":"INR", "conversionMultiple":7.19, "environment":"8000 instance-id"}
+  - http://localhost:8000/currency-exchange/from/USD/to/CNY
+  - {"id":10001, "from":"USD", "to":"INR", "conversionMultiple":7.19, "environment":"8000 instance-id"}
+
 * Currency Conversion Microservice - convert the USD into CNY
-  * http://localhost:8100/currency-conversion/from/USD/to/CNY/quantity/10
-  * {"id": 10001, "from": "USD", "to": "INR", "conversionMultiple": 7.19, "quantity": 10, "totalCalculatedAmount": 71.9, "environment": "8000 instance-id"}
-  * Invoke currency exchange service from currency conversion service using RestTemplate: https://github.com/GongVictorFeng/microservice-with-spring-cloud/commit/9a30bc56109b118ad4b0ba547e13f970d1bf890f
-  * Use Feign Rest client for service invocation: https://github.com/GongVictorFeng/microservice-with-spring-cloud/commit/f0b713a76a778affcfa376e063b3380a34149edc
+  - http://localhost:8100/currency-conversion/from/USD/to/CNY/quantity/10
+  - {"id": 10001, "from": "USD", "to": "INR", "conversionMultiple": 7.19, "quantity": 10, "totalCalculatedAmount": 71.9, "environment": "8000 instance-id"}
+  - Invoke currency exchange service from currency conversion service using RestTemplate: https://github.com/GongVictorFeng/microservice-with-spring-cloud/commit/9a30bc56109b118ad4b0ba547e13f970d1bf890f
+  - Use Feign Rest client for service invocation: https://github.com/GongVictorFeng/microservice-with-spring-cloud/commit/f0b713a76a778affcfa376e063b3380a34149edc
+
+- Naming Server: In microservice architecture, all the instances of all the microservices would register with a service registry
+  - Currency Conversion Microservice would talk to Naming server to get the address of Currency exchange microservice, then it can send the request to currency exchange microservice ![Naming server](assets/naming-server.png)
+* Load Balancing: Dynamically launch currency exchange instance and distribute load between them
+  - As instances come up and go down, they should be automatically discovered and load balance between them:![Load balancing](assets/load-balancing.png)
+  * Use Eureka, see implementation: 
+    * https://github.com/GongVictorFeng/microservice-with-spring-cloud/commit/c7b3f6a30bddcb9c51dd8ac6fe7359cb406c4104
+    * https://github.com/GongVictorFeng/microservice-with-spring-cloud/commit/3e74c35bcc9886b96e166f9fc60ccbba295acc41
+    * https://github.com/GongVictorFeng/microservice-with-spring-cloud/commit/cbd41dbadab87203d7e79c8ec6e40ee4706c7cbc
+* API Gateway
+  * Microservices have many common features such as rate limiting, authentication and authorization
+  * Implement common features in common place
+  * Before call any microservice, route every request through a API gateway
+  * Spring Cloud Gateway:
+    * Simple, yet effective way to route to APIs
+    * Provide cross cutting concerns;
+      * Security
+      * Monitoring/metrics
+    * Built on top of Spring WebFlux (Reactive Approach)
+    * Features:
+      * Match routes on any request attribute
+      * Define Predicates and Filters
+      * Integrates with Spring Cloud Discovery Client (Load Balancing)
+      * Path Rewriting
+    * Enable Discovery locator with Eureka for Spring Cloud Gateway:
+      * https://github.com/GongVictorFeng/microservice-with-spring-cloud/commit/bac22dd5abdc85c2a7c3d99b9c3d7c084d75a88d
+      * https://github.com/GongVictorFeng/microservice-with-spring-cloud/commit/d1a033857a91236b0bf430912f3dfe095896363b
+    * Implement the feature of customize route: https://github.com/GongVictorFeng/microservice-with-spring-cloud/commit/d1a033857a91236b0bf430912f3dfe095896363b
+    * Implement the feature of global filter: https://github.com/GongVictorFeng/microservice-with-spring-cloud/commit/2823f35cebbe65cd79fc6c69529198c7ccd538ce
+* 

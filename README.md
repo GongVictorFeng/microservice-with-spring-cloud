@@ -1,10 +1,12 @@
 # Microservice-With-Spring-Cloud
+
 This project is to explore the basic of Microservice and learn how to implement microservice using Spring Cloud, including:
-* Establish communication between microservices
-* Enable load balancing
-* Centralize the configuration of microservices with Spring Cloud Config Server
-* Implement Eureka Naming Server
-* Create fault tolerance microservices with Resilience4j
+
+- Establish communication between microservices
+- Enable load balancing
+- Centralize the configuration of microservices with Spring Cloud Config Server
+- Implement Eureka Naming Server
+- Create fault tolerance microservices with Resilience4j
 
 ## Monolith Application
 
@@ -143,3 +145,21 @@ This project is to explore the basic of Microservice and learn how to implement 
     - half_open: send a percentage of requests to the dependent microservice, the rest of the request will return the fallback response.
     - state changing: ![state changing](assets/circuitbreak-state-changing.png)
   - Implement rate limiting and bulkHead: https://github.com/GongVictorFeng/microservice-with-spring-cloud/commit/e925b79061d207062aba80c1d94426037d3aea6b
+
+## Distributed Tracing
+
+- Microservice has complex call chain
+- How to debug problems
+- How to trace requests across microservices
+- Use Distributed Tracing
+  ![Distributed Tracing Server](assets/distributed-tracing-server.png)
+- All the microservices involved send information out to a single Distributed Tracing Server
+- Distributed Tracing Server stores everything to a database
+- Distributed Tracing server provide an interface for tracing the request across multiple microservices
+
+### Connect Microservices to Zipkin
+
+- launch Zipkin container using docker
+  - docker run -d -p 9411:9411 openzipkin/zipkin
+- Connect microservices to zipkin: https://github.com/GongVictorFeng/microservice-with-spring-cloud/commit/fe0553fc50fb95d83beacaa03552229851f8f46e
+  ![request tracing zipkin](assets/distributed-tracing-zipkin.png)

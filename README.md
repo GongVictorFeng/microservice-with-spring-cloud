@@ -122,7 +122,7 @@ This project is to explore the basic of Microservice and learn how to implement 
     - Enable Discovery locator with Eureka for Spring Cloud Gateway:
       - https://github.com/GongVictorFeng/microservice-with-spring-cloud/commit/bac22dd5abdc85c2a7c3d99b9c3d7c084d75a88d
       - https://github.com/GongVictorFeng/microservice-with-spring-cloud/commit/d1a033857a91236b0bf430912f3dfe095896363b
-    - Implement the feature of customize route: https://github.com/GongVictorFeng/microservice-with-spring-cloud/commit/d1a033857a91236b0bf430912f3dfe095896363b
+    - Implement the feature of customize route: https://github.com/GongVictorFeng/microservice-with-spring-cloud/commit/6657f1f0c3d942699d4434232b80da8a5c366d5c
     - Implement the feature of global filter: https://github.com/GongVictorFeng/microservice-with-spring-cloud/commit/2823f35cebbe65cd79fc6c69529198c7ccd538ce
 * Fault Tolerance - Resilience4j
   - In microservice architecture, there is a complex call chain:
